@@ -5,7 +5,7 @@ class BloodOath
     def initialize(follower, cult)
         @follower = follower
         @cult = cult
-        @initiation_date = "#{Time.new.strftime("%d/%m/%Y")}"
+        @initiation_date = "#{Time.new.strftime("%Y/%m/%d")}"
         save
         puts "#{follower} has joined #{@cult}!"
     end

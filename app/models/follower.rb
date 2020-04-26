@@ -40,22 +40,22 @@ class Follower
         sorted.last
     end
 
+    def self.top_ten
+        sorted.last(10)
+    end
+
     def oaths
         BloodOath.all.select {|oath| oath.follower == self}
     end
 
-    def self.top_ten
-        sorted[(sorted.count - 10)...(sorted.count)]
-    end
-
     def fellow_cult_members
-        my_cults_roster.select {|follower| follower != self}.uniq
+        my_cults_roster.select {|follower| follower != self}
     end
 
     private
 
     def my_cults_roster
-        cults.map {|cult| cult.followers}.flatten
+        cults.map {|cult| cult.followers}.flatten.uniq
     end
 
     def self.sorted
