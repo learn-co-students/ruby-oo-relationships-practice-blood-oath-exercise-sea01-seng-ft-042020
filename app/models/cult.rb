@@ -1,12 +1,14 @@
 class Cult
+    attr_accessor :minimum_age
     attr_reader :name, :location, :founding_year, :slogan
     @@all = []
 
-    def initialize(name, location, founding_year, slogan)
+    def initialize(name, location, founding_year, slogan, minimum_age = nil)
         @name = name
         @location = location
         @founding_year = founding_year.to_i
         @slogan = slogan
+        @minimum_age = minimum_age
         save
     end
 
@@ -15,7 +17,13 @@ class Cult
     end
 
     def recruit_follower(follower)
-        BloodOath.new(follower, self)
+        if minimum_age && follower.age >= minimum_age
+            BloodOath.new(follower, self)
+        elsif minimum_age == nil
+            BloodOath.new(follower, self)
+        else 
+            "This follower does not meet the minimum age of #{minimum_age}"
+        end
     end
 
     def cult_population

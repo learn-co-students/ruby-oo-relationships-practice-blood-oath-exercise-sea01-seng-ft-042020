@@ -15,7 +15,13 @@ class Follower
     end
 
     def join_cult(cult)
-        BloodOath.new(self, cult)
+        if cult.minimum_age && self.age >= cult.minimum_age
+            BloodOath.new(self, cult)
+        elsif !cult.minimum_age
+            BloodOath.new(self, cult)
+        else 
+            "You are too young to join this Cult. Thier minimum age is #{cult.minimum_age}"
+        end
     end
 
     def self.all
@@ -42,7 +48,15 @@ class Follower
         sorted[(sorted.count - 10)...(sorted.count)]
     end
 
+    def fellow_cult_members
+        my_cults_roster.select {|follower| follower != self}.uniq
+    end
+
     private
+
+    def my_cults_roster
+        cults.map {|cult| cult.followers}.flatten
+    end
 
     def self.sorted
         all.sort_by {|follower| follower.cults.count}
