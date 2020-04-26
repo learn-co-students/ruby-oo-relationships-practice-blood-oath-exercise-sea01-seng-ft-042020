@@ -49,7 +49,7 @@ class Follower
     end
 
     def fellow_cult_members
-        my_cults_roster.select {|follower| follower != self}
+        my_cults_roster.reject {|follower| follower == self}
     end
 
     private
